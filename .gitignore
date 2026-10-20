@@ -1,0 +1,12 @@
+# Compiled application
+app
+app.exe
+a.out
+*.o
+
+# Runtime data and temporary files
+*.dat
+*.tmp
+
+#Editor-specific files
+.vscode/
