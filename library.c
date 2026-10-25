@@ -95,5 +95,99 @@ void viewBooks(void)
    }
      fclose(fp);
 }
+ 
+void searchBook(void)
+{
+    FILE *fp;
+    Book book;
+    int searchId;
+    int found = 0;
+
+    fp = fopen("books.dat", "rb");
+
+    if (fp == NULL)
+    {
+        printf("Unable to open library file.\n");
+        return;
+    }
+
+    printf("Enter Book ID to search: ");
+    scanf("%d", &searchId);
+
+    while (fread(&book, sizeof(Book), 1, fp) == 1)
+    {
+        if (book.bookId == searchId)
+        {
+            printf("\nBook Found!\n");
+            printf("Book ID: %d\n", book.bookId);
+            printf("Title: %s\n", book.title);
+            printf("Author: %s\n", book.author);
+            printf("Total Copies: %d\n", book.totalCopies);
+            printf("Available Copies: %d\n", book.availableCopies);
+
+            found = 1;
+            break;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("Book not found.\n");
+    }
+
+    fclose(fp);
+}
+
+void issueBook(void)
+{
+    FILE *fp;
+    Book book;
+    int searchId;
+    int found = 0;
+
+    fp = fopen("books.dat", "rb+");
+
+    if (fp == NULL)
+    {
+        printf("Unable to open library file.\n");
+        return;
+    }
+
+    printf("Enter Book ID to issue: ");
+    scanf("%d", &searchId);
+
+    while (fread(&book, sizeof(Book), 1, fp) == 1)
+    {
+        if (book.bookId == searchId)
+        {
+            found = 1;
+
+            if (book.availableCopies > 0)
+            {
+                book.availableCopies--;
+
+                fseek(fp, -(long)sizeof(Book), SEEK_CUR);
+                fwrite(&book, sizeof(Book), 1, fp);
+
+                printf("Book issued successfully!\n");
+                printf("Available copies: %d\n",
+                       book.availableCopies);
+            }
+            else
+            {
+                printf("No copies available to issue.\n");
+            }
+
+            break;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("Book not found.\n");
+    }
+
+    fclose(fp);
+}
 
 
