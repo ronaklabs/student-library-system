@@ -1,11 +1,11 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include "common.h"
-
 void addStudent(void);
-void viewStudent(void);
+void viewStudents(void);
 void searchStudent(void);
+void updateStudent(void);
+void deleteStudent(void);
 int studentExists(const char *rollNo);
 
 #endif
